@@ -13,6 +13,44 @@ def pearson(v1, v2):
     if den == 0: return 0
     
     return 1-num/den
+
+class bicluster:
+    def __init__(self, vec,left=None,right=None,id=None,distance=None):
+        self.left = left
+        self.right = right
+        self.id = id
+        self.vec = vec
+        self.distance = distance
+    
+
+def hcluster(rows):
+    distances={}
+    currentclustid=-1
+    
+    # init cluster class with the original row
+    clust = [bicluster(row[i], id=i) for i in len(rows)]
+    
+    while len(clust) > 1:
+        lowerpair = (0,1) #choose the first and second item as init node
+        closest = pearson(clust[0].vec,clust[1].vec)
+        
+        for i in range(len(clust)):
+            for j in range(i+1,len(clust)):
+                if (clust[i].id,clust[j].id) not in distances: 
+                    distances[(clust[i].id,clust[j].id)]=pearson(clust[i].vec,clust[j].vec)
+
+                d=distances[(clust[i].id,clust[j].id)]             
+                if(currentdistance < closest):
+                    closest = currentdistance
+                    lowerpair = (i,j)
+                    
+         # merge 2 closest bicluster into 1 bicluster
+         
+         
+        
+                
+        
+        
     
     
     

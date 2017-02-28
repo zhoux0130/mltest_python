@@ -93,3 +93,15 @@ def printclust(clust, labels=None, n=0):
     if clust.right != None: printclust(clust.right,labels=labels, n=n+1)
                     
                     
+def rotatematrix(data):
+    newdata=[]
+    for i in range(len(data)):
+        newrow = [data[j][i] for j in range(len(data))]
+        newdata.append(newrow);
+    return newdata
+
+def kcluster(rows,k=4):
+    ranges = [(min([row[i] for row in rows]), max([row[i] for row in rows])) for i in range(len(rows[0]))]
+    
+    print(ranges)
+    
