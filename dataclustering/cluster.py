@@ -103,5 +103,8 @@ def rotatematrix(data):
 def kcluster(rows,k=4):
     ranges = [(min([row[i] for row in rows]), max([row[i] for row in rows])) for i in range(len(rows[0]))]
     
-    print(ranges)
+    #need to check every confused step
+    #print(ranges)
+    #randomly pick k center-pointer
+    
     
