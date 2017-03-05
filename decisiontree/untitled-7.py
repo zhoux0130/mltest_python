@@ -8,7 +8,7 @@ tpredict = treepredict.decisionnode()
 
 
 tree=treepredict.buildtree(treepredict.my_data)
-treepredict.printtree(tree)
+#treepredict.printtree(tree)
 
 #print(treepredict.classify(['(direct)','USA','yes',5], tree))
 
