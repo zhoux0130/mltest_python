@@ -57,3 +57,6 @@ def knnestimate(data,vec1,k=5):
     avg=avg/k
     
     return avg
+
+def invertfun():
+    return 0
