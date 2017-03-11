@@ -113,3 +113,19 @@ def crossvalidate(alf,data,trials=100,test=0.05):
         error+=testalgorithm(alf, trainset, testset)
     
     return error/trials
+
+
+def wineset2():
+    rows=[]
+    for i in range(300):
+        rating=random()*50+50
+        age=random()*50
+        aisle=float(randint(1,20))
+        bottlesize=[375.0,750.0,1500.0][randint(0,2)]
+        price=wineprice(rating,age)
+        price*=(bottlesize/750)
+        price*=(random()*0.2+0.9)
+        rows.append({'input':(rating,age,aisle,bottlesize),
+                     'result':price})
+    return rows
+

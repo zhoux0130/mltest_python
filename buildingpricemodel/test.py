@@ -6,7 +6,7 @@ print(numpredict.wineprice(95.0,8.0))
 
 print(numpredict.wineprice(99.0,1.0))
 
-data =numpredict.winset1()
+data =numpredict.wineset2()
 #print(data[0])
 #print(data[1])
 
@@ -23,4 +23,6 @@ def knn3(d,v):return numpredict.knnestimate(d,v,5)
 #print(numpredict.crossvalidate(knn3,data))
 
 print(numpredict.crossvalidate(numpredict.weightedKNN,data))
+
+
 
