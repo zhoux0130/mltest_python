@@ -25,12 +25,6 @@ def winset1():
         price*=(random()*0.4+0.8)
         rows.append({'input':(rating, age),'result':price})
     return rows
-
-#def euclidean(v1, v2):
-    #d=0.0
-    #for i in range(len(v1)):
-        #d+=(v1[i]*v2[i])**2 #**: 3**2=3*3=9  3**3=3*3*3=27
-    #return math.sqrt(d)
     
 def euclidean(v1,v2):
     d=0.0
@@ -58,5 +52,34 @@ def knnestimate(data,vec1,k=5):
     
     return avg
 
-def invertfun():
-    return 0
+#the different way to caculate weight
+
+def invertfun(dist, num=1.0, const=0.1):
+    weight = num/(dist+const)
+    return weight
+
+def subtraction(dist, const=2.0, num=1.0):
+    if dist > const:
+        return 0
+    else:
+        weight=const-dist*num
+    return weight
+
+def gaussian(dist,sigma=5.0):
+    return math.e**(-dist**2/(2*sigma**2))
+
+
+def weightedKNN(data, vec1, k=5, weightf=gaussian):
+    distancelist = getdistance(data, vec1)
+    
+    totalweight=0
+    avg=0.0
+    for i in range(k):
+        idx=distancelist[i][1]
+        dist=distancelist[i][0]
+        totalweight+=weightf(dist)
+        avg+=weightf(dist)*data[idx]['result']
+    
+    avg=avg/totalweight
+    return avg       
+        
