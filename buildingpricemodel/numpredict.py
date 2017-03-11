@@ -69,7 +69,7 @@ def gaussian(dist,sigma=5.0):
     return math.e**(-dist**2/(2*sigma**2))
 
 
-def weightedKNN(data, vec1, k=5, weightf=gaussian):
+def weightedKNN(data, vec1, k=5, weightf=invertfun):
     distancelist = getdistance(data, vec1)
     
     totalweight=0
@@ -82,4 +82,34 @@ def weightedKNN(data, vec1, k=5, weightf=gaussian):
     
     avg=avg/totalweight
     return avg       
+
+def dividedata(data,test=0.05):
+    trainset=[]
+    testset=[]
+    
+    for row in data:
+        if random() < test:
+            testset.append(row)
+        else:
+            trainset.append(row)
+    
+    return trainset,testset
         
+        
+def testalgorithm(alf,trainset,testset):
+    error=0.0
+    for row in testset:
+        guess=alf(trainset, row['input'])
+        result=row['result']
+        error+=(result-guess)**2
+        
+    return error/len(testset)
+
+
+def crossvalidate(alf,data,trials=100,test=0.05):
+    error=0.0
+    for i in range(trials):
+        trainset,testset=dividedata(data,test)
+        error+=testalgorithm(alf, trainset, testset)
+    
+    return error/trials
