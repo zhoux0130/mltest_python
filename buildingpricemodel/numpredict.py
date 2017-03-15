@@ -129,3 +129,72 @@ def wineset2():
                      'result':price})
     return rows
 
+
+def rescale(data,scale):
+    scaleddata=[]
+    for row in data:
+        scaled=(row[i]*scale[i] for i in len(scale))
+        scaleddata.append({'input':scaled,'result':row['result']})
+        
+    return scaleddata
+        
+        
+def createcostfunction(algf, data):
+    def costf(scale):
+        sdata=rescale(data, scale)
+        return crossvalidate(algf, data, trials=10)
+    
+    return costf
+
+def probguess(data,vec1,low,high,k=5,weightf=gaussian):
+    dlist=getdistance(data,vec1)
+    nweight=0.0
+    tweight=0.0
+
+    for i in range(k):
+        dist=dlist[i][0]
+        idx=dlist[i][1]
+        weight=weightf(dist)
+        v=data[idx]['result']
+
+        # Is this point in the range?
+        if v>=low and v<=high:
+            nweight+=weight
+        tweight+=weight
+    if tweight==0: return 0
+
+    # The probability is the weights in the range
+    # divided by all the weights
+    return nweight/tweight
+
+
+    
+from pylab import *
+
+def cumulativegraph(data,vec1,high,k=5,weightf=gaussian):
+    t1=arange(0.0,high,0.1)
+    cprob=array([probguess(data,vec1,0,v,k,weightf) for v in t1])
+    plot(t1,cprob)
+    show()
+
+
+def probabilitygraph(data,vec1,high,k=5,weightf=gaussian,ss=5.0):
+    # Make a range for the prices
+    t1=arange(0.0,high,0.1)
+
+    # Get the probabilities for the entire range
+    probs=[probguess(data,vec1,v,v+0.1,k,weightf) for v in t1]
+
+    # Smooth them by adding the gaussian of the nearby probabilites
+    smoothed=[]
+    for i in range(len(probs)):
+        sv=0.0
+        for j in range(0,len(probs)):
+            dist=abs(i-j)*0.1
+            weight=gaussian(dist,sigma=ss)
+            sv+=weight*probs[j]
+        smoothed.append(sv)
+    smoothed=array(smoothed)
+
+    plot(t1,smoothed)
+    show()

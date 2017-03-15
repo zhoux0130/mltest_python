@@ -1,3 +1,7 @@
+import time
+import random
+import math
+
 people = [('Seymour','BOS'),
           ('Franny','DAL'),
           ('Zooey','CAK'),
@@ -14,4 +18,6 @@ for line in file('schedule.txt'):
     
     flights[(origin,dest)].append((depart, arrive, int(price)))
     
-print(flights)
+def getminutes(t):
+    x=time.strptime(t,'%H:%M')
+    return x[3]*60+x[4]
